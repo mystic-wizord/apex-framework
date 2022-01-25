@@ -1,0 +1,15 @@
+{
+    "name": "{{name}}",
+    "redundancy": "3",
+    "base-path": "https://{{name}}.apex-framework/",
+    {{#db_required}}
+    "database-url": "{{mongodb_uri}}"
+    {{/db_required}}
+    {{^db_required}}
+    "api-catalogue": [
+        {{#apis}}{
+            "open-api-dir": "{{open_api_dir}}"
+        },{{/apis}}
+    ]
+    {{/db_required}}
+}
