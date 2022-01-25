@@ -1,6 +1,7 @@
-from os import close
+import os
 import click
 import chevron
+import json
 
 @click.group()
 def cli():
@@ -19,6 +20,7 @@ def init(name: str = None,):
         name = click.prompt("Please give your project a name")
         click.echo(f"Initializing {name}!")
 
+    # This hasn't been implemented yet :(
     database_required = click.prompt("Do you have a database instance? [Y/N]") == 'Y'
     click.echo(f"Database setup needed? {database_required}")
 
@@ -28,10 +30,14 @@ def init(name: str = None,):
             rendered_mustache = chevron.render(data_file, { 'name': name, 'db_required': database_required, 'mongodb_uri': mongodb_uri } )
             click.echo(rendered_mustache)
         else:
-            # while True:
-                open_api_dir = click.prompt("Please provide the location of your OpenApi files")
-                rendered_mustache = chevron.render(data_file, { 'name': name, 'db_required': database_required, 'apis': [ { 'open_api_dir': open_api_dir } ] } )
-                click.echo(rendered_mustache)
+            open_api_dir = click.prompt("Please provide the location of your OpenApi files")
+            rendered_mustache = chevron.render(data_file, { 'name': name, 'db_required': database_required, 'open_api_dir': open_api_dir } )
+            click.echo(rendered_mustache)
+
+    json_file = json.loads(rendered_mustache)
+
+    app_dir = json_file['name']
+    os.mkdir(f'../{app_dir}')
 
 if __name__ == "__main__":
     cli()

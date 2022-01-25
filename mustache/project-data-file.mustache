@@ -6,10 +6,6 @@
     "database-url": "{{mongodb_uri}}"
     {{/db_required}}
     {{^db_required}}
-    "api-catalogue": [
-        {{#apis}}{
-            "open-api-dir": "{{open_api_dir}}"
-        },{{/apis}}
-    ]
+    "open-api-dir": "{{open_api_dir}}"
     {{/db_required}}
 }
