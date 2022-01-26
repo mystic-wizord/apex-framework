@@ -2,6 +2,7 @@ import pathlib
 import click
 import chevron
 import json
+import yaml
 
 @click.group()
 def cli():
@@ -13,12 +14,12 @@ def cli():
 
 @cli.command()
 @click.argument('name')
-def init(name: str = None,):
+def create(name: str = None):
     if name and name.strip() and len(name) > 0: 
-        click.echo(f"Initializing {name}!")
+        click.echo(f"Creating new application: {name}!")
     else:
         name = click.prompt("Please give your project a name")
-        click.echo(f"Initializing {name}!")
+        click.echo(f"Creating new application: {name}!")
 
     # This hasn't been implemented yet :(
     database_required = click.prompt("Do you have a database instance? [Y/N]") == 'Y'
@@ -34,16 +35,20 @@ def init(name: str = None,):
             rendered_mustache = chevron.render(data_file, { 'name': name, 'db_required': database_required, 'open_api_dir': open_api_dir } )
             click.echo(rendered_mustache)
 
-    json_file = json.loads(rendered_mustache)
-
-    app_dir = json_file['name']
-
-    pathlib.Path(f'../{app_dir}').mkdir(parents=True, exist_ok=True)
+    pathlib.Path(f'../{name}/api-definitions').mkdir(parents=True, exist_ok=True)
+    app_definition_file = open(f'../{name}/application-manifest.json', 'x')
+    app_definition_file.write(rendered_mustache)
+    app_definition_file.close()
 
 
 @cli.command()
 @click.argument('name')
-def purge(name: str = None,):
+def build(name: str = None):
+    click.echo(f"Building {name}!")
+
+@cli.command()
+@click.argument('name')
+def purge(name: str = None):
     if name and name.strip() and len(name) > 0: 
         click.echo(f"Purging {name}!")
     else:
