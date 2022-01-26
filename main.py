@@ -37,7 +37,17 @@ def init(name: str = None,):
     json_file = json.loads(rendered_mustache)
 
     app_dir = json_file['name']
-    os.mkdir(f'../{app_dir}')
+
+    directory = os.path.dirname(f'../{app_dir}')
+
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+    else:
+        click.echo("Cannot create directory: Already exists!!")
 
 if __name__ == "__main__":
     cli()
+
+# Commands for setup:
+#  - virtualenv venv
+#  - . venv/bin/activate
