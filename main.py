@@ -1,4 +1,4 @@
-import os
+import pathlib
 import click
 import chevron
 import json
@@ -38,12 +38,20 @@ def init(name: str = None,):
 
     app_dir = json_file['name']
 
-    directory = os.path.dirname(f'../{app_dir}')
+    pathlib.Path(f'../{app_dir}').mkdir(parents=True, exist_ok=True)
 
-    if not os.path.exists(directory):
-        os.mkdir(directory)
+
+@cli.command()
+@click.argument('name')
+def purge(name: str = None,):
+    if name and name.strip() and len(name) > 0: 
+        click.echo(f"Purging {name}!")
     else:
-        click.echo("Cannot create directory: Already exists!!")
+        name = click.prompt("Please enter the name of the application to purge")
+        click.echo(f"Purging {name}!")
+
+    pathlib.Path(f'../{name}').rmdir()
+
 
 if __name__ == "__main__":
     cli()
