@@ -1,1 +1,50 @@
-test: This is a test
+name: api-a-v1
+description:
+scheme: https
+alias: api-a-v1.apex-framework
+base-path: v1
+endpoints:
+  /artefacts/{user_id}:
+    - method: get
+      operationId: getListOfArtefacts
+      parameters:
+        header:
+          - name: X-Session-Id
+            description: A UUID used to track a user session
+            format: string
+            pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+            example: 77585371-b520-4628-81cd-c48457b6a597
+          - name: X-Request-Id
+            description: A UUID used to track a user request
+            format: string
+            pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+            example: 76fa45f7-e10e-4d6d-bc08-27c270cfee48
+        path: 
+          - name: user_id
+            description: A UUID used to track a user request
+            format: string
+            pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+            example: 8b28fd18-9117-4081-8b50-c5d4f7efa164
+    - method: post
+      operationId: createNewArtefact
+      parameters:
+        header:
+          - name: X-Session-Id
+            description: A UUID used to track a user session
+            format: string
+            pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+            example: 77585371-b520-4628-81cd-c48457b6a597
+          - name: X-Request-Id
+            description: A UUID used to track a user request
+            format: string
+            pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+            example: 76fa45f7-e10e-4d6d-bc08-27c270cfee48
+        path: 
+          - name: user_id
+            description: A UUID used to track a user request
+            format: string
+            pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+            example: 8b28fd18-9117-4081-8b50-c5d4f7efa164
+        body:
+          reference: /definitions/CreateArtefactRequest
+

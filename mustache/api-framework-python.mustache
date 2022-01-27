@@ -1,0 +1,13 @@
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+{{#apis}}
+# Implement API routing for {{name}}
+{{#endpoints}}
+@app.{{method}}('{{endpoint}}')
+def {{function_name}}({{parameters}}):
+    # TODO: implementation
+
+{{/endpoints}}
+{{/apis}}
